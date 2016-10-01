@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Kenny PiCar</title>
+    <script src="/static/js/jquery.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" >
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/static/js/bootstrap.min.js" ></script>
+    </head>
+<body>
+<script type="text/javascript">
+    function go(k){
+        $.post('/',{k:k},function(){});
+    }
+    $(function(){
+        //window.document.onkeydown = abc;
+        $(document).keydown(function(env) {
+        //function abc(env){
+            env = (env) ? env : window.event;
+            $('#logbox').prepend(env.keyCode + " pressed\n");
+
+            if(env.keyCode=='87' || env.keyCode=='38'){
+                go('w');
+            }
+            if(env.keyCode=='83' || env.keyCode=='40'){
+                go('s');
+            }
+            if(env.keyCode=='65' || env.keyCode=='37'){
+                go('a');
+            }
+            if(env.keyCode=='68' || env.keyCode=='39'){
+                go('d');
+            }
+            if(env.keyCode=='81'){
+                go('q');
+            }
+            if(env.keyCode=='69'){
+                go('e');
+            }
+            if(env.keyCode=='90'){
+                go('z');
+            }
+            if(env.keyCode=='88'){
+                go('x');
+            }
+        });
+        var i = null;
+        $('#main button').bind("touchstart",function(e){
+            cmd = $(this).attr('cmd');
+            i = setInterval(function(){
+                go(cmd);
+            },100);
+
+        });        
+        $('#main button').bind("touchend",function(e){
+            clearInterval(i);
+        });
+
+        $('#main button').bind("mousedown",function(e){
+            cmd = $(this).attr('cmd');
+        //$('.before').mousedown(function(){
+            i = setInterval(function(){
+                go(cmd);
+            },100);
+        });
+
+        $('#main button').mouseup(function(){
+            clearInterval(i);
+        });
+    });
+</script>
+<style type="text/css">
+    #main{width: 600px;height: 600px;background: #ccc;left:100}
+    #main span{width: 200px;height: 200px;float: left;z-index: 999;}
+    #main button {width: 200px; height: 200px;}
+    #main span.on2{  }
+</style>
+<img src="http://192.168.2.31:8080/?action=stream" />
+<div id="main">
+    <span></span>
+    <span class="on2"><button type="button" class="btn btn-lg btn-primary before" cmd="w">UP</button></span>
+    <span></span>
+    <span class="on2"><button type="button" class="btn btn-lg btn-primary left" cmd="a">LEFT</button></span>
+    <span></span>
+    <span class="on2"><button type="button" class="btn btn-lg btn-primary right" cmd="d">RIGHT</button></span>
+    <span></span>
+    <span class="on2"><button type="button" class="btn btn-lg btn-primary cabk" cmd="s">>BACK</button></span>
+    <span></span>
+</div>
+
+
+<div>
+Logs:<br/>
+<textarea id="logbox" rows=10 cols=80></textarea>
+</div>
+</body>
+</html>

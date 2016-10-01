@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Kenny PiCar</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+<body>
+<script type="text/javascript">
+    function go(k){
+        $.post('/',{k:k},function(){});
+    }
+    $(function(){
+        //window.document.onkeydown = abc;
+        $(document).keydown(function(env) {
+        //function abc(env){
+            env = (env) ? env : window.event;
+            $('#logbox').prepend(env.keyCode + " pressed\n");
+
+            if(env.keyCode=='87' || env.keyCode=='38'){
+                go('w');
+            }
+            if(env.keyCode=='83' || env.keyCode=='40'){
+                go('s');
+            }
+            if(env.keyCode=='65' || env.keyCode=='37'){
+                go('a');
+            }
+            if(env.keyCode=='68' || env.keyCode=='39'){
+                go('d');
+            }
+            if(env.keyCode=='81'){
+                go('q');
+            }
+            if(env.keyCode=='69'){
+                go('e');
+            }
+            if(env.keyCode=='90'){
+                go('z');
+            }
+            if(env.keyCode=='88'){
+                go('x');
+            }
+        });
+        var i = null;
+        $('.before').bind("touchstart",function(e){
+            i = setInterval(function(){
+                go('w');
+            },100);
+
+        });        
+        $('.before').bind("touchend",function(e){
+            clearInterval(i);
+        });
+
+        $('.before').bind("mousedown",function(e){
+        //$('.before').mousedown(function(){
+            i = setInterval(function(){
+                go('w');
+            },100);
+        });
+        $('.left').mousedown(function(){
+            i = setInterval(function(){
+                go('a');
+            },100);
+        });
+        $('.right').mousedown(function(){
+            i = setInterval(function(){
+                go('d');
+            },100);
+        });
+        $('.cabk').mousedown(function(){
+            i = setInterval(function(){
+                go('s');
+            },100);
+        });
+        $('#main span').mouseup(function(){
+            clearInterval(i);
+        });
+    });
+</script>
+<style type="text/css">
+    #main{width: 300px;height: 300px;background: #ccc;left:100}
+    #main span{width: 100px;height: 100px;float: left;z-index: 999;}
+    #main span.on2{background: #000000; color: white}
+</style>
+<img src="http://192.168.2.31:8080/?action=stream" />
+<div id="main">
+    <span></span>
+    <span class="on2 before"><button type="button" class="btn btn-lg btn-default">UP</button></span>
+    <span></span>
+    <span class="on2 left"><button type="button" class="btn btn-lg btn-default">LEFT</button></span>
+    <span></span>
+    <span class="on2 right"><button type="button" class="btn btn-lg btn-default">RIGHT</button></span>
+    <span></span>
+    <span class="on2 cabk"><button type="button" class="btn btn-lg btn-default">BACK</button></span>
+    <span></span>
+</div>
+
+<div id="main">
+    <span></span>
+    <span class="on2 before">UP</span>
+    <span></span>
+    <span class="on2 left">LEFT</span>
+    <span></span>
+    <span class="on2 right">RIGHT</span>
+    <span></span>
+    <span class="on2 cabk">BACK</span>
+    <span></span>
+</div>
+<div>
+Logs:<br/>
+<textarea id="logbox" rows=10 cols=80></textarea>
+</div>
+</body>
+</html>
