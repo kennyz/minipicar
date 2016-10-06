@@ -1,0 +1,36 @@
+#! /bin/sh
+# /etc/init.d/webcam ### BEGIN INIT INFO
+# Provides:	webcam
+# Required-Start: $remote_fs $webcam
+# Required-Stop:	umountnfs $webcam
+# X-Stop-After:	sendsigs
+# Default-Start:	2 3 4 5
+# Default-Stop:	0 1 6
+# Short-Description: enhanced webcam
+# Description: webcam used to mjpg-streamer auto start when runing #
+#
+#
+### END INIT INFO
+#
+# Author: Dragon
+#
+# Carry out specific functions when asked to by the system 
+case "$1" in
+	start)
+		echo "Starting webcam script" 
+		export LD_LIBRARY_PATH=/home/pi/robot/mjpg-streamer/mjpg-streamer-experim ental
+		#export LD_LIBRARY_PATH="$(pwd)"
+		#/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -d /dev/video0 -r 640*480 -f 10" -o "/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/www" &
+		/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/input_raspicam.so" -o "/home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/robot/mjpg-streamer/mjpg-streamer-experimental/www" &
+		#/home/bananapi/Desktop/wifi/mjpg-streamer/mjpg-streamer-experimental/sta rt.sh
+		#./mjpg_streamer -i "./input_uvc.so" -o "output_http.so -w ./www" &
+		;; 
+	stop)
+		echo "Stopping webcam script" 
+		killall mjpg_streamer
+		;;
+	*)
+		echo "Usage: /etc/init.d/webcam {start|stop}" exit 1
+		;;
+esac 
+exit 0
